@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
 import MapView, { MapPressEvent, Marker, UrlTile } from "react-native-maps";
 import { useEffect, useState } from "react";
@@ -33,6 +33,8 @@ export default function HomeScreen() {
     name?: string;
     address?: string;
   } | null>(null);
+
+  const [shouldShowDirections, setShouldShowDirections] = useState(false);
 
   useEffect(() => {
     let subscription: Location.LocationSubscription | null = null;
@@ -159,7 +161,7 @@ export default function HomeScreen() {
             />
           )}
 
-          {selectedLocation !== null && (
+          {shouldShowDirections && selectedLocation !== null && (
             <MapViewDirections
               language="uk"
               mode="WALKING"
@@ -172,6 +174,54 @@ export default function HomeScreen() {
             />
           )}
         </MapView>
+        {selectedLocation !== null && (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 16,
+              width: "100%",
+              justifyContent: "space-between",
+              paddingHorizontal: 16,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedLocation(null);
+                setShouldShowDirections(false);
+              }}
+              style={{
+                backgroundColor: "#6f9af0",
+
+                padding: 8,
+                height: 32,
+                borderRadius: 5,
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Text>Очистити </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setShouldShowDirections(true);
+              }}
+              style={{
+                backgroundColor: "#6f9af0",
+                padding: 8,
+                height: 32,
+                borderRadius: 5,
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Text>Побудувати маршрут</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -181,10 +231,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
   },
   map: {
     width: "100%",
-    height: "100%",
+    height: "85%",
   },
   currentPosition: {
     width: 20,
