@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     config: {
       googleMaps: {
-        apiKey: process.env.GOOGLE_CLOUD_API_KEY || "",
+        apiKey: process.env.EXPO_PUBLIC_GOOGLE_CLOUD_API_KEY || "",
       },
     },
   },
