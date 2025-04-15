@@ -161,9 +161,14 @@ export default function HomeScreen() {
 
           {selectedLocation !== null && (
             <MapViewDirections
+              language="uk"
+              mode="WALKING"
               origin={userLocation}
               destination={selectedLocation}
               apikey={process.env.EXPO_PUBLIC_GOOGLE_CLOUD_API_KEY!}
+              strokeWidth={5}
+              strokeColor="#19F"
+              splitWaypoints={true}
             />
           )}
         </MapView>
